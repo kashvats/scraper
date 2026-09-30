@@ -4,6 +4,7 @@ WORKDIR /app
 COPY requirements.lock .
 RUN pip install --no-cache-dir -r requirements.lock
 RUN useradd --uid 10001 --create-home scraper && mkdir /app/data && chown scraper:scraper /app/data
+VOLUME /app/data
 COPY --chown=scraper:scraper . .
 USER scraper
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 CHROME_BINARY=/usr/bin/chromium CHROMEDRIVER=/usr/bin/chromedriver CHROME_NO_SANDBOX=0
