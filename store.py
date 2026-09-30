@@ -38,6 +38,7 @@ def migrate():
         CREATE TABLE IF NOT EXISTS worker_health(id TEXT PRIMARY KEY,seen REAL NOT NULL);
         PRAGMA user_version=1;
         ''')
+        db.execute("INSERT OR IGNORE INTO users(id,email,password,disabled) VALUES ('local','local','',0)")
 
 def audit(db,owner,action,resource=''):
     db.execute('INSERT INTO audit(at,owner,action,resource) VALUES (?,?,?,?)',(time.time(),owner,action,resource))

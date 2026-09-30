@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-let active = null, pollTimer = null, csrfToken='', resultOffset=0, appSettings={};
+let active = null, pollTimer = null, resultOffset=0, appSettings={};
 const terminal = s => !['queued','running'].includes(s);
 function input(placeholder, value='') {const e=document.createElement('input');e.placeholder=placeholder;e.value=value;return e;}
 function labeled(text, el) {const l=document.createElement('label');l.append(text,el);return l;}
@@ -34,9 +34,8 @@ function config() {
  c.fields=[...$('fields').children].map(box=>Object.fromEntries([...box.querySelectorAll('input')].map(i=>[i.dataset.key,i.type==='checkbox'?i.checked:i.value.trim()])));return c;
 }
 async function api(path,opts={}) {
- const r=await fetch(path,{...opts,headers:{...opts.headers,...(csrfToken?{'X-CSRF-Token':csrfToken}:{})}});
+ const r=await fetch(path,{...opts});
  if(!r.ok){
-  if(r.status===401){$('login-screen').hidden=false;$('app-shell').hidden=true;clearTimeout(pollTimer);}
   const d=await r.json().catch(()=>({detail:r.statusText}));
   const message=Array.isArray(d.detail)?d.detail.map(x=>`${x.loc?.slice(1).join('.')}: ${x.msg}`).join('; '):d.detail;
   throw Error(typeof message==='string'?message:'The request failed.');

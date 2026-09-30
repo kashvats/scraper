@@ -8,12 +8,13 @@ import time
 import uuid
 from pathlib import Path
 from typing import Literal
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
-from auth import current_user
 from scraper import Browser, Config, canonical
 from worker import terminate
 import store
+
+OWNER = 'local'
 
 DOM=Path(__file__).with_name('picker_dom.js').read_text()
 router=APIRouter(prefix='/api/picker')
@@ -126,13 +127,13 @@ def find(sid,owner):
     return s
 
 @router.post('')
-def open_browser(body:Open,user=Depends(current_user)):
+def open_browser(body:Open):
     try:url=canonical(body.url)
     except ValueError as exc:raise HTTPException(422,str(exc))
-    if not store.rate('picker:'+user['id'],30,3600):raise HTTPException(429,'Browser session rate limit reached.')
+    if not store.rate('picker:'+OWNER,30,3600):raise HTTPException(429,'Browser session rate limit reached.')
     with mutex:
-        if len(sessions)>=2 or any(s.owner==user['id'] for s in sessions.values()):raise HTTPException(429,'Close your current site view, or wait for a browser slot.')
-        s=Session(url,user['id']);sessions[s.id]=s
+        if len(sessions)>=2 or any(s.owner==OWNER for s in sessions.values()):raise HTTPException(429,'Close your current site view, or wait for a browser slot.')
+        s=Session(url,OWNER);sessions[s.id]=s
     try:return s.receive()
     except Exception:
         s.close()
@@ -140,12 +141,12 @@ def open_browser(body:Open,user=Depends(current_user)):
         raise
 
 @router.post('/{sid}/action')
-def action(sid:str,body:Action,user=Depends(current_user)):
-    return find(sid,user['id']).submit(body)
+def action(sid:str,body:Action):
+    return find(sid,OWNER).submit(body)
 
 @router.delete('/{sid}')
-def close_browser(sid:str,user=Depends(current_user)):
-    s=find(sid,user['id']);s.close()
+def close_browser(sid:str):
+    s=find(sid,OWNER);s.close()
     with mutex:sessions.pop(sid,None)
     return {'closed':True}
 
