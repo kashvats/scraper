@@ -1,0 +1,11 @@
+services:
+  harvest:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - harvest-data:/app/data
+    shm_size: 1gb
+    init: true
+volumes:
+  harvest-data:

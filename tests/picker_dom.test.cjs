@@ -1,0 +1,43 @@
+// Run with: npm install --no-save jsdom && node tests/picker_dom.test.cjs
+const {JSDOM}=require('jsdom');
+const fs=require('node:fs');
+const assert=require('node:assert/strict');
+const path=require('node:path');
+const vm=require('node:vm');
+const root=path.join(__dirname,'..');
+const dom=new JSDOM('<body><h1>Catalog</h1><article class="product"><a href="/p/1"><img src="/one.png"><span>One</span></a><p class="price">10</p></article><article class="product"><a href="/p/2">Two</a><p class="price">20</p></article><a class="next" href="/page2">Next</a></body>',{url:'https://shop.example/catalog',runScripts:'outside-only'});
+const w=dom.window;w.CSS={escape:s=>s};
+const select=w.eval('('+fs.readFileSync(path.join(root,'picker_dom.js'),'utf8')+')');
+let picked=select({selector:'.product img'});
+assert.equal(picked.attributes.src,'https://shop.example/one.png');
+assert.equal(picked.link.url,'https://shop.example/p/1');
+assert.equal(w.document.querySelectorAll(picked.link.similar_selector).length,2);
+assert.equal(w.document.querySelectorAll(picked.selector).length,1);
+picked=select({selector:'.product:nth-of-type(2) .price'});
+assert.equal(w.document.querySelector(picked.selector).textContent,'20');
+assert.equal(picked.match_count,2);
+picked=select({selector:'.product img',parent:true});
+assert.equal(picked.tag,'a');
+picked=select({selector:'h1'});assert.equal(picked.selector,'h1');
+console.log('PASS: exact second-item selection, similar product links, enclosing element, image and link URLs.');
+
+const ui=new JSDOM(fs.readFileSync(path.join(root,'static/index.html'),'utf8'),{url:'http://localhost:8000',runScripts:'outside-only'});
+ui.window.fetch=async()=>({ok:true,json:async()=>[]});
+vm.runInContext(fs.readFileSync(path.join(root,'static/app.js'),'utf8'),ui.getInternalVMContext());
+vm.runInContext(fs.readFileSync(path.join(root,'static/picker.js'),'utf8'),ui.getInternalVMContext());
+const sample=select({selector:'.product img'});
+vm.runInContext('showShot('+JSON.stringify({id:'sample-session',url:'https://shop.example/catalog',image:'data:image/jpeg;base64,',selection:sample})+')',ui.getInternalVMContext());
+const d=ui.window.document;
+d.getElementById('picked-name').value='Product Image';
+d.getElementById('save-selection').click();
+assert.equal(d.querySelector('[data-key="name"]').value,'Product Image');
+assert.equal(d.querySelector('[data-key="attribute"]').value,'src');
+assert.equal(d.querySelector('[data-key="selector"]').value,sample.selector);
+d.getElementById('save-selection').click();
+assert.equal(d.getElementById('fields').children.length,1); // duplicates rejected
+assert.match(d.getElementById('browser-message').textContent,/unique/);
+d.getElementById('selection-purpose').value='links';
+d.getElementById('selection-purpose').dispatchEvent(new ui.window.Event('change'));
+assert.equal(d.getElementById('picked-selector').value,sample.link.similar_selector);
+assert.equal(d.getElementById('field-options').hidden,true);
+console.log('PASS: visual selection maps custom column, attribute and selector; duplicate prevention; nested-link mapping.');
