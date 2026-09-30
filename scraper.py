@@ -78,11 +78,15 @@ class Browser:
             if self.c.engine == 'playwright':
                 from playwright.sync_api import sync_playwright
                 self.pw = sync_playwright().start()
-                options = {'headless': True, 'chromium_sandbox': os.getenv('CHROME_NO_SANDBOX') != '1', 'args': ['--disable-quic','--force-webrtc-ip-handling-policy=disable_non_proxied_udp']}
+                no_sandbox = os.getenv('CHROME_NO_SANDBOX') == '1'
+                args = ['--disable-quic','--force-webrtc-ip-handling-policy=disable_non_proxied_udp']
+                if no_sandbox:
+                    args += ['--no-sandbox','--disable-setuid-sandbox']
+                options = {'headless': True, 'chromium_sandbox': not no_sandbox, 'args': args}
                 if os.getenv('BROWSER_PROXY'):
                     options['proxy']={'server':os.environ['BROWSER_PROXY'],'bypass':'<-loopback>'}
-                if os.getenv('CHROME_BINARY'):
-                    options['executable_path'] = os.environ['CHROME_BINARY']
+                # Only use CHROME_BINARY for Selenium; Playwright uses its own bundled build
+                self.browser = self.pw.chromium.launch(**options)
                 self.browser = self.pw.chromium.launch(**options)
                 self.page = self.browser.new_page(accept_downloads=False, service_workers='block')
                 self.page.route('**/*', lambda route: route.continue_() if route.request.url.startswith(('http://','https://')) else route.abort())

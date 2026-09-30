@@ -8,17 +8,19 @@ x-app: &app
     BROWSER_PROXY: http://proxy:3128
     DEMO_URL: http://demo.harvest.test/catalog.html
     HARVEST_DATA: /app/data
+    CHROME_NO_SANDBOX: "1"
   volumes:
     - harvest-data:/app/data
   networks: [private]
   read_only: true
   tmpfs:
     - /tmp:size=512m,mode=1777
+    - /run:size=32m,mode=1777
     - /home/scraper/.cache:uid=10001,gid=10001,size=64m
   shm_size: 1gb
   cap_drop: [ALL]
   security_opt:
-    - seccomp=./deploy/browser-seccomp.json
+    - no-new-privileges:true
   pids_limit: 512
   stop_grace_period: 30s
   logging:

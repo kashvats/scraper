@@ -1,5 +1,5 @@
 let pickerId=null, pickerBusy=false, picked=null, pickerRevision=0;
-function pickerStatus(message,error=false){$('browser-message').textContent=message;$('browser-message').style.color=error?'#a43d2d':'';}
+function pickerStatus(message,error=false){$('browser-message').textContent=message;$('browser-message').style.color=error?'var(--red)':'var(--green)';}
 function setPickerBusy(value){pickerBusy=value;$('visual-browser').classList.toggle('busy',value);$('open-site').disabled=value;}
 async function pickerRequest(path,method='POST',body){return api(path,{method,headers:{'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});}
 function showShot(data){

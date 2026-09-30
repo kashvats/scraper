@@ -2,21 +2,21 @@ const $ = id => document.getElementById(id);
 let active = null, pollTimer = null, resultOffset=0, appSettings={};
 const terminal = s => !['queued','running'].includes(s);
 function input(placeholder, value='') {const e=document.createElement('input');e.placeholder=placeholder;e.value=value;return e;}
-function labeled(text, el) {const l=document.createElement('label');l.append(text,el);return l;}
+function labeled(text, el) {const l=document.createElement('label');const s=document.createElement('span');s.textContent=text;l.append(s,el);return l;}
 function addLevel(value='') {
  if($('levels').children.length>=5) return;
  const row=document.createElement('div');row.className='level';
- const title=document.createElement('span');title.textContent='Follow links';
+ const title=document.createElement('span');title.className='level-lbl';title.textContent='Links';
  const el=input('e.g. .product-card a',value);el.required=true;
- const b=document.createElement('button');b.type='button';b.className='remove';b.textContent='×';b.setAttribute('aria-label','Remove link level');b.onclick=()=>row.remove();row.append(title,el,b);$('levels').append(row);
+ const b=document.createElement('button');b.type='button';b.className='btn-icon';b.textContent='×';b.setAttribute('aria-label','Remove link level');b.onclick=()=>row.remove();row.append(title,el,b);$('levels').append(row);
 }
 function addField(name='',selector='',attribute='',multiple=false) {
  if($('fields').children.length>=30)return;
  const box=document.createElement('div');box.className='field';
  const top=document.createElement('div');top.className='field-top';
- const n=input('product_name',name),s=input('h1',selector),a=input('Text by default',attribute);n.required=s.required=true;
+ const n=input('column_name',name),s=input('h1.title',selector),a=input('text',attribute);n.required=s.required=true;
  n.dataset.key='name';s.dataset.key='selector';a.dataset.key='attribute';
- const b=document.createElement('button');b.type='button';b.className='remove';b.textContent='×';b.setAttribute('aria-label','Remove field');b.onclick=()=>box.remove();
+ const b=document.createElement('button');b.type='button';b.className='btn-icon';b.textContent='×';b.setAttribute('aria-label','Remove field');b.onclick=()=>box.remove();
  top.append(labeled('Column name',n),labeled('CSS selector',s),b);
  const bottom=document.createElement('div');bottom.className='field-bottom';
  const cb=document.createElement('input');cb.type='checkbox';cb.checked=multiple;cb.dataset.key='multiple';
@@ -52,7 +52,8 @@ async function poll(){
  clearTimeout(pollTimer);if(!active)return;
  try{
  const job=await api('/api/jobs/'+active+'?offset='+resultOffset);
- $('status').textContent=job.status.replaceAll('_',' ');$('row-count').textContent=job.row_count;$('page-count').textContent=job.pages;$('error-count').textContent=job.errors.length;
+ const badge=$('status');badge.textContent=job.status.replaceAll('_',' ');
+ badge.className='badge'+(job.status==='running'?' running':['failed','cancelled'].includes(job.status)?' failed':'');$('row-count').textContent=job.row_count;$('page-count').textContent=job.pages;$('error-count').textContent=job.errors.length;
  $('stop').disabled=terminal(job.status);$('resume').disabled=!['failed','cancelled'].includes(job.status);$('delete-job').disabled=!terminal(job.status);$('previous-results').disabled=resultOffset===0;$('next-results').disabled=resultOffset+200>=job.row_count;$('run').disabled=!terminal(job.status);$('csv').disabled=$('xlsx').disabled=!job.row_count;
  $('empty').hidden=!!job.row_count;$('table-wrap').hidden=!job.row_count;
  const headers=job.config.fields.map(f=>f.name).concat(['source_url','parent_url']);
@@ -65,7 +66,7 @@ async function poll(){
 }
 $('stop').onclick=async()=>{try{await api('/api/jobs/'+active+'/cancel',{method:'POST'});$('progress').textContent='Stopping after the current browser operation…';}catch(e){$('form-error').textContent=e.message;}};
 for(const fmt of ['csv','xlsx'])$(fmt).onclick=()=>{if(active)location.href='/api/jobs/'+active+'/export/'+fmt;};
-async function refreshHistory(){try{const jobs=await api('/api/jobs');if(!jobs.length)return;$('history').replaceChildren(...jobs.map(j=>{const b=document.createElement('button');b.type='button';b.textContent=`${new Date(j.created*1000).toLocaleString()} · ${j.row_count} rows · ${j.status.replaceAll('_',' ')}`;b.onclick=()=>{active=j.id;resultOffset=0;poll();};return b;}));}catch(e){$('history').textContent='Could not load job history.';}}
+async function refreshHistory(){try{const jobs=await api('/api/jobs');if(!jobs.length)return;$('history').replaceChildren(...jobs.map(j=>{const b=document.createElement('button');b.type='button';b.className='history-item';b.innerHTML=`<span>${new Date(j.created*1000).toLocaleString()}</span><span>${j.row_count} rows · ${j.status.replaceAll('_',' ')}</span>`;b.onclick=()=>{active=j.id;resultOffset=0;poll();};return b;}));}catch(e){$('history').textContent='Could not load job history.';}}
 
 
 $('previous-results').onclick=()=>{resultOffset=Math.max(0,resultOffset-200);poll();};
