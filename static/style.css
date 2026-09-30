@@ -450,6 +450,61 @@ button:disabled { opacity: .35; cursor: default; }
 }
 #browser-message { font-size: 11px; font-weight: 500; color: var(--text2); white-space: nowrap; }
 
+/* Nested Breadcrumb Navigation Bar */
+.nested-breadcrumb-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 16px; background: rgba(99, 102, 241, 0.1);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.25);
+  font-size: 11px; flex-shrink: 0;
+}
+.crumb-trail { display: flex; align-items: center; gap: 6px; }
+.crumb-icon { color: var(--accent2); display: flex; align-items: center; }
+.crumb-name { color: var(--text2); font-weight: 500; }
+.crumb-sep { color: var(--text3); font-size: 12px; }
+.crumb-badge {
+  font-weight: 700; color: #fff; background: var(--accent);
+  padding: 2px 7px; border-radius: var(--radius-pill); font-size: 10px;
+}
+.nested-bar-actions { display: flex; align-items: center; gap: 10px; }
+.nested-hint { color: var(--accent2); font-size: 11px; font-weight: 500; }
+
+/* Purpose Selector Pills in Inspector */
+.purpose-selector-group { margin-bottom: 10px; }
+.purpose-pills {
+  display: flex; gap: 4px; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 3px; margin-top: 4px;
+}
+.purpose-pill {
+  flex: 1; background: transparent; border: none; color: var(--text3);
+  font-size: 11px; font-weight: 600; padding: 6px 4px;
+  border-radius: 4px; display: inline-flex; align-items: center;
+  justify-content: center; gap: 5px; cursor: pointer; transition: all 0.15s ease;
+}
+.purpose-pill:hover { color: var(--text); background: rgba(255, 255, 255, 0.04); }
+.purpose-pill.active {
+  background: var(--surface3); color: var(--text);
+  border: 1px solid var(--border2); box-shadow: var(--shadow-sm);
+}
+.nested-info-box {
+  background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius-sm); padding: 8px 10px; margin: 6px 0;
+}
+.info-tag {
+  font-size: 9px; font-weight: 800; color: var(--accent2); letter-spacing: 0.06em;
+  display: block; margin-bottom: 4px;
+}
+.nested-info-box p { font-size: 11px; color: var(--text2); line-height: 1.4; }
+
+.child-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; margin-bottom: 6px; }
+.child-chip-btn {
+  background: var(--surface2); border: 1px solid var(--border2);
+  color: var(--accent2); font-size: 11px; padding: 4px 8px; border-radius: 4px;
+  cursor: pointer; transition: all 0.15s ease; max-width: 100%;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.child-chip-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
 /* Browser body: Canvas + Selection Inspector */
 .browser-body {
   display: flex; flex: 1; min-height: 0; min-width: 0;

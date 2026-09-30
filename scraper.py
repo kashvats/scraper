@@ -53,20 +53,76 @@ EXTRACT = r'''(cfg) => {
  const links = s => s ? Array.from(document.querySelectorAll(s)).map(e => e.href || e.getAttribute('href')).filter(Boolean) : [];
  let rows = [];
  if (cfg.extract) {
-   const roots = cfg.row_selector ? Array.from(document.querySelectorAll(cfg.row_selector)) : [document];
-   rows = roots.slice(0, cfg.remaining).map(root => Object.fromEntries(cfg.fields.map(f => {
-     const nodes = Array.from(root.querySelectorAll(f.selector));
-     const chosen = f.multiple ? nodes : nodes.slice(0,1);
-     const values = chosen.map(el => {
-       if (!f.attribute) return (el.innerText || el.textContent || '').trim();
-       const value = el.getAttribute(f.attribute) || '';
-       if (value && ['href','src'].includes(f.attribute)) {try {return new URL(value, document.baseURI).href} catch {}}
-       return value.trim();
+   let roots = [];
+   if (cfg.row_selector) {
+     try { roots = Array.from(document.querySelectorAll(cfg.row_selector)); } catch {}
+   }
+
+   const fieldMatches = cfg.fields.map(f => {
+     try { return Array.from(document.querySelectorAll(f.selector)); } catch { return []; }
+   });
+   const maxMatches = Math.max(0, ...fieldMatches.map(m => m.length));
+
+   // Auto-detect repeating card container if row_selector not found and multiple items match
+   if (!roots.length && maxMatches > 1) {
+     const primary = fieldMatches.find(m => m.length === maxMatches);
+     if (primary && primary[0]) {
+       let cur = primary[0].parentElement;
+       while (cur && cur !== document.body && cur !== document.documentElement) {
+         const cls = Array.from(cur.classList).filter(c => !/^(active|selected|hover|focus|open)$/.test(c));
+         if (cls.length) {
+           const sel = cur.localName + '.' + cls.map(c => CSS.escape(c)).join('.');
+           try {
+             const cand = Array.from(document.querySelectorAll(sel));
+             if (cand.length === maxMatches && cand.includes(cur)) {
+               roots = cand;
+               break;
+             }
+           } catch {}
+         }
+         cur = cur.parentElement;
+       }
+     }
+   }
+
+   if (!roots.length && maxMatches > 1) {
+     // Zip parallel element matches into separate rows
+     rows = Array.from({length: Math.min(maxMatches, cfg.remaining)}, (_, i) => {
+       return Object.fromEntries(cfg.fields.map((f, fIdx) => {
+         const nodes = fieldMatches[fIdx];
+         const el = nodes[i];
+         let val = '';
+         if (el) {
+           if (!f.attribute) val = (el.innerText || el.textContent || '').trim();
+           else {
+             val = el.getAttribute(f.attribute) || '';
+             if (val && ['href','src'].includes(f.attribute)) {
+               try { val = new URL(val, document.baseURI).href; } catch {}
+             }
+             val = val.trim();
+           }
+         }
+         return [f.name, val.slice(0, 32000)];
+       }));
      });
-     return [f.name, values.join(' | ').slice(0, 32000)];
-   })));
+   } else {
+     if (!roots.length) roots = [document];
+     rows = roots.slice(0, cfg.remaining).map(root => Object.fromEntries(cfg.fields.map(f => {
+       const nodes = Array.from(root.querySelectorAll(f.selector));
+       const chosen = f.multiple ? nodes : nodes.slice(0, 1);
+       const values = chosen.map(el => {
+         if (!f.attribute) return (el.innerText || el.textContent || '').trim();
+         const value = el.getAttribute(f.attribute) || '';
+         if (value && ['href','src'].includes(f.attribute)) {
+           try { return new URL(value, document.baseURI).href; } catch {}
+         }
+         return value.trim();
+       });
+       return [f.name, values.join(' | ').slice(0, 32000)];
+     })));
+   }
  }
- return {rows, links: links(cfg.link_selector).slice(0, 500), next: links(cfg.next_selector).slice(0,1)};
+ return {rows, links: links(cfg.link_selector).slice(0, 500), next: links(cfg.next_selector).slice(0, 1)};
 }'''
 
 class Browser:

@@ -1,4 +1,4 @@
-let pickerId=null, pickerBusy=false, picked=null, pickerRevision=0;
+let pickerId=null, pickerBusy=false, picked=null, pickerRevision=0, listingUrl='';
 
 function pickerStatus(message, error=false) {
   $('browser-message').textContent = message;
@@ -63,6 +63,8 @@ $('open-site').onclick = async () => {
   const url = $('url').value.trim();
   if (!url) { $('form-error').textContent = 'Enter a website URL first.'; return; }
   if (pickerBusy) return;
+  listingUrl = url;
+  if ($('nested-breadcrumb')) $('nested-breadcrumb').hidden = true;
   if (window.showView) window.showView('browser');
   else $('visual-browser').hidden = false;
   $('visual-browser').scrollIntoView({behavior: 'smooth', block: 'start'});
@@ -76,7 +78,7 @@ $('open-site').onclick = async () => {
     $('selection-empty').hidden = false;
     const data = await pickerRequest('/api/picker', 'POST', {url});
     showShot(data);
-    pickerStatus('Click a value to map it to your column.');
+    pickerStatus('Click a value to map it to your column, or click a product link to follow nested pages.');
   } catch(e) {
     pickerStatus(e.message, true);
   } finally {
@@ -95,6 +97,7 @@ $('close-browser').onclick = async () => {
   $('site-image').removeAttribute('src');
   if ($('browser-live-dot')) $('browser-live-dot').hidden = true;
   if ($('browser-active-badge')) $('browser-active-badge').hidden = true;
+  if ($('nested-breadcrumb')) $('nested-breadcrumb').hidden = true;
   if (window.showView) window.showView('results');
 };
 
@@ -129,6 +132,31 @@ $('send-text').onclick = () => pickerAction({kind: 'type', text: $('browser-text
 $('send-enter').onclick = () => pickerAction({kind: 'press', key: 'Enter'});
 $('pick-parent').onclick = () => picked && pickerAction({kind: 'parent', selector: picked.selector});
 
+// Nested breadcrumb back button
+if ($('btn-back-to-root')) {
+  $('btn-back-to-root').onclick = async () => {
+    if (listingUrl) {
+      await pickerAction({kind: 'navigate', url: listingUrl});
+      if ($('nested-breadcrumb')) $('nested-breadcrumb').hidden = true;
+      pickerStatus('Returned to listing page.');
+    }
+  };
+}
+
+// Purpose pill buttons
+function setPurpose(p) {
+  $('selection-purpose').value = p;
+  $('picked-scope').value = p === 'links' ? 'similar' : 'exact';
+  ['field', 'links', 'next'].forEach(k => {
+    const pill = $('pill-' + k);
+    if (pill) pill.classList.toggle('active', k === p);
+  });
+  updateSelection();
+}
+if ($('pill-field')) $('pill-field').onclick = () => setPurpose('field');
+if ($('pill-links')) $('pill-links').onclick = () => setPurpose('links');
+if ($('pill-next')) $('pill-next').onclick = () => setPurpose('next');
+
 function showSelection() {
   $('selection-empty').hidden = true;
   $('selection-details').hidden = false;
@@ -136,6 +164,18 @@ function showSelection() {
   if ($('selected-tag-badge')) $('selected-tag-badge').textContent = `<${picked.tag}>`;
   $('picked-name').value = '';
   $('match-preview').textContent = '';
+
+  // Auto-detect repeating card container if on list and row_selector is empty
+  if (picked.card && !$('row_selector').value.trim() && !$('levels').children.length) {
+    $('row_selector').value = picked.card.selector;
+    pickerStatus(`Auto-detected card container: “${picked.card.selector}” (${picked.card.count} items). Each card will be a separate row!`);
+  }
+
+  // Configure link pills
+  if ($('pill-links')) {
+    $('pill-links').hidden = !picked.link;
+  }
+
   const choices = [
     ['', 'Visible text'],
     ...Object.keys(picked.attributes).filter(k => !k.startsWith('on')).map(k => [k, k === 'src' ? 'Image URL (src)' : k === 'href' ? 'Link URL (href)' : `Attribute: ${k}`])
@@ -146,8 +186,33 @@ function showSelection() {
     return opt;
   }));
   if (picked.tag === 'img' && picked.attributes.src) $('picked-attribute').value = 'src';
+  
+  // Render child element chips if container has children
+  const childWrap = $('child-elements-wrap');
+  const childChips = $('child-chips');
+  if (childWrap && childChips) {
+    if (picked.children && picked.children.length > 0) {
+      childWrap.hidden = false;
+      childChips.replaceChildren(...picked.children.map(c => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'child-chip-btn';
+        btn.textContent = `<${c.tag}> ${c.text || c.selector}`;
+        btn.title = `Click to select <${c.tag}>`;
+        btn.onclick = () => pickerAction({kind: 'select', selector: c.selector});
+        return btn;
+      }));
+    } else {
+      childWrap.hidden = true;
+      childChips.replaceChildren();
+    }
+  }
+
+  // Uncheck picked-all by default so multiple products aren't concatenated into one cell
+  $('picked-all').checked = false;
   $('picked-scope').value = 'exact';
-  updateSelection();
+  setPurpose('field');
+
   const r = picked.rect, box = $('selection-box');
   box.hidden = false;
   Object.assign(box.style, {
@@ -162,8 +227,15 @@ function updateSelection() {
   if (!picked) return;
   const purpose = $('selection-purpose').value;
   $('field-options').hidden = purpose !== 'field';
+  if ($('nested-link-info')) $('nested-link-info').hidden = purpose !== 'links';
+  
+  ['field', 'links', 'next'].forEach(k => {
+    const pill = $('pill-' + k);
+    if (pill) pill.classList.toggle('active', k === purpose);
+  });
+
   const selected = purpose === 'field' ? picked : picked.link;
-  $('save-selection').textContent = purpose === 'field' ? 'Add column' : purpose === 'links' ? 'Save links & open one' : 'Save next-page link';
+  $('save-selection').textContent = purpose === 'field' ? 'Add column' : purpose === 'links' ? '🔗 Save link level & open detail page' : 'Save next-page link';
   $('save-selection').disabled = !selected;
   if (!selected) {
     $('picked-selector').value = '';
@@ -206,14 +278,20 @@ $('save-selection').onclick = async () => {
   } else {
     if (!picked.link) return;
     if ($('levels').children.length >= 5) { pickerStatus('Maximum five link levels.', true); return; }
-    const result = await pickerAction({kind: 'navigate', url: picked.link.url});
+    if (!listingUrl) listingUrl = $('browser-address').value;
+    const destUrl = picked.link.url;
+    addLevel(selector);
+    const result = await pickerAction({kind: 'navigate', url: destUrl});
     if (result) {
-      addLevel(selector);
-      $('selection-purpose').value = 'field';
+      if ($('nested-breadcrumb')) {
+        $('nested-breadcrumb').hidden = false;
+        $('crumb-level-badge').textContent = `Detail Page (Level ${$('levels').children.length})`;
+      }
+      setPurpose('field');
       picked = null;
       $('selection-details').hidden = true;
       $('selection-empty').hidden = false;
-      pickerStatus('Link level saved. Select fields here, or select another link to go deeper.');
+      pickerStatus('Now on Product Detail Page. Click any data here (Title, Price, Description, Specs) to add columns. They will be extracted for every product!');
     }
   }
 };
