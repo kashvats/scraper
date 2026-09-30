@@ -1,0 +1,11 @@
+{$SITE_HOST} {
+    request_body {
+        max_size 1MB
+    }
+    encode zstd gzip
+    reverse_proxy api:8000 {
+        transport http {
+            response_header_timeout 60s
+        }
+    }
+}

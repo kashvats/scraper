@@ -1,11 +1,87 @@
+x-app: &app
+  build: .
+  image: harvest:0.3.0
+  init: true
+  restart: unless-stopped
+  env_file: .env
+  environment: &env
+    BROWSER_PROXY: http://proxy:3128
+    DEMO_URL: http://demo.harvest.test/catalog.html
+    HARVEST_DATA: /app/data
+  volumes:
+    - harvest-data:/app/data
+  networks: [private]
+  read_only: true
+  tmpfs:
+    - /tmp:size=512m,mode=1777
+    - /home/scraper/.cache:uid=10001,gid=10001,size=64m
+  shm_size: 1gb
+  cap_drop: [ALL]
+  security_opt:
+    - seccomp=./deploy/browser-seccomp.json
+  pids_limit: 512
+  stop_grace_period: 30s
+  logging:
+    driver: json-file
+    options: {max-size: "10m", max-file: "3"}
+
 services:
-  harvest:
-    build: .
-    ports:
-      - "127.0.0.1:8000:8000"
-    volumes:
-      - harvest-data:/app/data
-    shm_size: 1gb
+  api:
+    <<: *app
+    mem_limit: 3g
+    cpus: 2
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/live')"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    depends_on: [proxy, demo]
+  worker:
+    <<: *app
+    command: [python, worker.py]
+    mem_limit: 2g
+    cpus: 2
+    depends_on: [proxy, demo]
+  proxy:
+    image: harvest:0.3.0
+    command: [python, egress_proxy.py]
+    user: "10001:10001"
     init: true
+    restart: unless-stopped
+    environment: {DEMO_UPSTREAM: "demo:8080"}
+    networks: [private, outbound]
+    read_only: true
+    mem_limit: 256m
+    cpus: 1
+    pids_limit: 96
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+  demo:
+    image: harvest:0.3.0
+    command: [python, -m, http.server, "8080", --directory, /app/demo]
+    user: "10001:10001"
+    networks: [private]
+    read_only: true
+    restart: unless-stopped
+    mem_limit: 128m
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+  gateway:
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    ports: ["127.0.0.1:8000:80"]
+    networks: [private, outbound]
+    volumes:
+      - ./deploy/Caddyfile.local:/etc/caddy/Caddyfile:ro
+    depends_on:
+      api: {condition: service_healthy}
+    mem_limit: 256m
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+
+networks:
+  private: {internal: true}
+  outbound: {}
 volumes:
-  harvest-data:
+  harvest-data: {}

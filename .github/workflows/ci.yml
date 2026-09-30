@@ -1,0 +1,40 @@
+name: Verification
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    env:
+      HARVEST_TEST_EMAIL: ci@example.invalid
+      HARVEST_TEST_PASSWORD: disposable-ci-password-12345
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/setup-node@v4
+        with: {node-version: "24"}
+      - run: pip install -r requirements.lock
+      - run: python -m pytest -q
+      - run: npm ci && npm test
+      - run: python -m playwright install --with-deps chromium
+      - run: cp .env.example .env
+      - run: docker compose build
+      - name: Create disposable acceptance account
+        run: |
+          docker compose run --rm -T -e HARVEST_TEST_EMAIL -e HARVEST_TEST_PASSWORD api python -c "import os,uuid,store,auth; store.migrate(); c=store.connection(True); d=c.__enter__(); d.execute('INSERT INTO users VALUES (?,?,?,0)',(uuid.uuid4().hex,os.environ['HARVEST_TEST_EMAIL'],auth.password_hash(os.environ['HARVEST_TEST_PASSWORD']))); c.__exit__(None,None,None)"
+      - run: docker compose up -d
+      - run: python tests/browser_acceptance.py
+      - name: Verify persistence after API restart
+        run: |
+          docker compose restart api
+          python -c "import time,httpx,os; time.sleep(5); c=httpx.Client(base_url='http://localhost:8000'); r=c.post('/api/auth/login',json={'email':os.environ['HARVEST_TEST_EMAIL'],'password':os.environ['HARVEST_TEST_PASSWORD']}); r.raise_for_status(); assert len(c.get('/api/jobs').json())>=2"
+      - name: Logs
+        if: always()
+        run: mkdir -p test-artifacts && docker compose logs --no-color > test-artifacts/docker.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: acceptance-evidence, path: test-artifacts}
+      - if: always()
+        run: docker compose down -v

@@ -1,9 +1,9 @@
-let pickerId=null, pickerBusy=false, picked=null;
+let pickerId=null, pickerBusy=false, picked=null, pickerRevision=0;
 function pickerStatus(message,error=false){$('browser-message').textContent=message;$('browser-message').style.color=error?'#a43d2d':'';}
 function setPickerBusy(value){pickerBusy=value;$('visual-browser').classList.toggle('busy',value);$('open-site').disabled=value;}
 async function pickerRequest(path,method='POST',body){return api(path,{method,headers:{'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});}
 function showShot(data){
- pickerId=data.id;$('browser-address').value=data.url;$('site-image').src=data.image;
+ pickerId=data.id;pickerRevision=data.revision||0;$('browser-address').value=data.url;$('site-image').src=data.image;
  $('selection-box').hidden=true;
  if(data.selection){picked=data.selection;showSelection();}
  if(data.preview){$('match-preview').textContent=`${data.preview.count} matching elements\n`+data.preview.values.join('\n\n');}
@@ -11,7 +11,7 @@ function showShot(data){
 async function pickerAction(body){
  if(pickerBusy||!pickerId)return null;
  setPickerBusy(true);pickerStatus('Updating site view…');
- try{const data=await pickerRequest('/api/picker/'+pickerId+'/action','POST',body);if(['navigate','back','click'].includes(body.kind)){picked=null;$('selection-details').hidden=true;$('selection-empty').hidden=false;}showShot(data);pickerStatus('Click content to select it, or switch to Browse mode.');return data;}
+ try{const data=await pickerRequest('/api/picker/'+pickerId+'/action','POST',{...body,revision:pickerRevision});if(['navigate','back','click'].includes(body.kind)){picked=null;$('selection-details').hidden=true;$('selection-empty').hidden=false;}showShot(data);pickerStatus('Click content to select it, or switch to Browse mode.');return data;}
  catch(e){pickerStatus(e.message,true);return null;}
  finally{setPickerBusy(false);}
 }
@@ -21,7 +21,7 @@ $('open-site').onclick=async()=>{
  $('visual-browser').hidden=false;$('visual-browser').scrollIntoView({behavior:'smooth',block:'start'});
  setPickerBusy(true);pickerStatus('Opening the website in a browser…');
  try{
-  if(pickerId)await pickerRequest('/api/picker/'+pickerId,'DELETE');
+  if(pickerId){try{await pickerRequest('/api/picker/'+pickerId,'DELETE');}catch{}}
   pickerId=null;picked=null;$('site-image').removeAttribute('src');$('selection-details').hidden=true;$('selection-empty').hidden=false;
   const data=await pickerRequest('/api/picker','POST',{url});showShot(data);pickerStatus('Click a value to map it to your column.');
  }catch(e){pickerStatus(e.message,true);}

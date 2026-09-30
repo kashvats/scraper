@@ -1,0 +1,18 @@
+services:
+  api:
+    environment:
+      HARVEST_ENV: production
+  worker:
+    environment:
+      HARVEST_ENV: production
+  gateway:
+    ports: !override ["80:80", "443:443"]
+    environment:
+      SITE_HOST: ${SITE_HOST:?Set SITE_HOST in .env}
+    volumes: !override
+      - ./deploy/Caddyfile.production:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+volumes:
+  caddy-data: {}
+  caddy-config: {}
