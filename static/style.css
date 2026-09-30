@@ -172,6 +172,10 @@ button:disabled { opacity: .35; cursor: default; }
   background: var(--surface); border-bottom: 1px solid var(--border);
   display: flex; flex-direction: column;
 }
+/* When browser is open, shrink results to a compact strip */
+#visual-browser:not([hidden]) ~ #results-panel {
+  flex: 0 0 200px;
+}
 .browser-bar {
   display: flex; align-items: center; gap: 8px;
   padding: 10px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0;
@@ -187,20 +191,19 @@ button:disabled { opacity: .35; cursor: default; }
 .browser-mode-bar label { margin: 0; display: flex; align-items: center; gap: 6px; }
 .browser-mode-bar select { width: auto; margin: 0; padding: 6px 10px; font-size: 12px; }
 #browser-message { font-size: 12px; color: var(--green); margin-left: auto; }
-.browser-body { display: flex; min-height: 0; flex: 1; }
+.browser-body { display: flex; flex: 1; min-height: 0; }
 #page-canvas {
   flex: 1; position: relative; background: #0a0c12;
-  aspect-ratio: 1000/650; overflow: hidden;
-  height: 100%; width: 100%;
+  overflow: hidden; min-height: 400px;
 }
-#site-image { width: 100%; height: 100%; object-fit: fill; cursor: crosshair; display: block; }
+#site-image { width: 100%; height: 100%; object-fit: fill; cursor: crosshair; display: block; position: absolute; inset: 0; }
 .busy #page-canvas { opacity: .6; pointer-events: none; }
 #selection-box {
   position: absolute; border: 2px solid var(--accent);
   background: rgba(108,99,255,.15); pointer-events: none;
 }
 .selection-panel {
-  width: 280px; flex-shrink: 0; overflow-y: auto; min-height: 300px;
+  width: 300px; flex-shrink: 0; overflow-y: auto;
   background: var(--surface2); border-left: 1px solid var(--border);
   padding: 14px;
 }
