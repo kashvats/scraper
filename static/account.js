@@ -1,6 +1,10 @@
 let savedTemplates=[];
 async function enterWorkspace(){
  clearTimeout(pollTimer);active=null;resultOffset=0;pickerId=null;picked=null;$('config').reset();$('fields').replaceChildren();$('levels').replaceChildren();$('tbody').replaceChildren();$('thead').replaceChildren();$('errors').replaceChildren();$('visual-browser').hidden=true;$('site-image').removeAttribute('src');$('table-wrap').hidden=true;$('empty').hidden=false;for(const id of ['csv','xlsx','stop','resume','delete-job'])$(id).disabled=true;for(const id of ['row-count','page-count','error-count'])$(id).textContent='0';$('status').textContent='Ready';$('progress').textContent='';$('run').disabled=false;
+ if (window.showView) window.showView('results');
+ if ($('browser-live-dot')) $('browser-live-dot').hidden = true;
+ if ($('browser-active-badge')) $('browser-active-badge').hidden = true;
+ if ($('results-count-pill')) $('results-count-pill').textContent = '0';
  appSettings=await api('/api/settings');await Promise.all([refreshHistory(),loadTemplates()]);
  const health=await fetch('/health/ready');$('worker-warning').hidden=health.ok;
 }

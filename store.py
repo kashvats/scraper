@@ -23,7 +23,7 @@ def connection(write=False):
     finally:db.close()
 
 def migrate():
-    with connection() as db:
+    with connection(True) as db:
         db.execute('PRAGMA journal_mode=WAL')
         db.executescript('''
         CREATE TABLE IF NOT EXISTS users(id TEXT PRIMARY KEY,email TEXT UNIQUE NOT NULL,password TEXT NOT NULL,disabled INTEGER NOT NULL DEFAULT 0);

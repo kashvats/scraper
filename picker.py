@@ -132,7 +132,12 @@ def open_browser(body:Open):
     except ValueError as exc:raise HTTPException(422,str(exc))
     if not store.rate('picker:'+OWNER,30,3600):raise HTTPException(429,'Browser session rate limit reached.')
     with mutex:
-        if len(sessions)>=2 or any(s.owner==OWNER for s in sessions.values()):raise HTTPException(429,'Close your current site view, or wait for a browser slot.')
+        for old_id, old_s in list(sessions.items()):
+            if getattr(old_s, 'owner', None)==OWNER:
+                try: old_s.close()
+                except Exception: pass
+                sessions.pop(old_id, None)
+        if len(sessions)>=2:raise HTTPException(429,'All browser slots are currently in use.')
         s=Session(url,OWNER);sessions[s.id]=s
     try:return s.receive()
     except Exception:

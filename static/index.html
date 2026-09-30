@@ -1,21 +1,33 @@
-﻿<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Harvest · Web scraper</title>
-<link rel="stylesheet" href="/static/style.css">
-</head><body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Harvest · Web scraper</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
 <div id="app-shell">
 
 <!-- ── Top bar ── -->
 <header>
   <a class="brand" href="/">
-    <span class="brand-icon">▦</span>
+    <span class="brand-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    </span>
     <span class="brand-name">harvest</span>
   </a>
   <div class="topbar-sep"></div>
   <span class="chip">WEB SCRAPER</span>
   <div class="topbar-actions">
-    <p id="worker-warning" hidden>⚠ Worker offline</p>
-    <button id="sample" class="btn-ghost">Load sample</button>
+    <p id="worker-warning" hidden>
+      <span class="status-pulse-dot" style="background:var(--amber)"></span>
+      <span>Worker offline</span>
+    </p>
+    <button id="sample" class="btn-ghost" type="button">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/></svg>
+      <span>Load sample</span>
+    </button>
   </div>
 </header>
 
@@ -26,6 +38,7 @@
 
   <!-- Saved scrapers -->
   <div class="sidebar-top">
+    <div class="sidebar-section-label">Saved Scrapers</div>
     <div class="saved-row">
       <select id="saved-scrapers" aria-label="Saved scrapers">
         <option value="">Saved scrapers…</option>
@@ -35,11 +48,9 @@
     <div class="scraper-name-row">
       <input id="template-name" placeholder="Scraper name…">
       <button id="save-template" class="btn-ghost" type="button">Save</button>
-    </div>
-    <div class="scraper-actions">
       <button id="new-scraper" class="btn-ghost" type="button">+ New</button>
-      <span id="template-message" role="status"></span>
     </div>
+    <span id="template-message" role="status"></span>
   </div>
 
   <!-- Config form -->
@@ -55,8 +66,11 @@
       </div>
       <div class="sec-body">
         <label><span>Starting URL</span><input id="url" type="url" required placeholder="https://example.com/products"></label>
-        <button type="button" id="open-site" class="btn-success" style="width:100%;margin-bottom:10px">Open site &amp; select data</button>
-        <p class="hint">Click content in the site view to build your columns automatically.</p>
+        <button type="button" id="open-site" class="btn-hero" style="width:100%;margin-bottom:10px">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span>Open site &amp; select data</span>
+        </button>
+        <p class="hint">Click content in the live site view to build your columns automatically.</p>
         <div class="two">
           <label><span>Engine</span>
             <select id="engine">
@@ -115,7 +129,7 @@
           <label><span>Settle (ms)</span><input id="settle_ms" type="number" value="300" min="0" max="10000" required></label>
           <label><span>Timeout (ms)</span><input id="timeout_ms" type="number" value="20000" min="1000" max="60000" required></label>
         </div>
-        <label class="check" style="margin-top:4px">
+        <label class="check" style="margin-top:6px">
           <input type="checkbox" id="same_origin" checked> Same host only
         </label>
       </div>
@@ -127,66 +141,123 @@
 
   <!-- Run bar -->
   <div class="run-bar">
-    <button id="run" type="submit" form="config" class="btn-success">▶ Run scraper</button>
-    <p class="hint" style="text-align:center">Results are saved after each page</p>
+    <button id="run" type="submit" form="config" class="btn-success">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      <span>Run scraper</span>
+    </button>
+    <p class="hint" style="text-align:center">Results stream live after each page</p>
   </div>
 
 </div><!-- /sidebar -->
 
-<!-- ══���═══════════ MAIN PANEL ══════════════ -->
+<!-- ══════════════ MAIN PANEL ══════════════ -->
 <div id="main-panel">
 
-  <!-- Visual browser (hidden until opened) -->
+  <!-- View switcher tabs -->
+  <div class="panel-header-tabs" id="panel-header-tabs">
+    <div class="panel-tab-group">
+      <button type="button" class="main-tab-btn" id="tab-btn-browser">
+        <span class="tab-live-dot" id="browser-live-dot" hidden></span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        <span>Live Browser</span>
+        <span class="tab-badge" id="browser-active-badge" hidden>Active</span>
+      </button>
+      <button type="button" class="main-tab-btn active" id="tab-btn-results">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        <span>Extracted Results</span>
+        <span class="tab-pill" id="results-count-pill">0</span>
+      </button>
+      <button type="button" class="main-tab-btn" id="tab-btn-history">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Job History</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Visual browser (takes the WHOLE main panel when open!) -->
   <div id="visual-browser" hidden>
 
     <!-- Address bar -->
     <div class="browser-bar">
-      <button id="browser-back" class="btn-icon" type="button" title="Back">←</button>
-      <input id="browser-address" aria-label="Address" placeholder="https://…">
-      <button id="browser-go" type="button" style="padding:8px 14px">Go</button>
-      <button id="browser-refresh" class="btn-icon" type="button" title="Refresh">↻</button>
+      <button id="browser-back" class="btn-icon" type="button" title="Back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <button id="browser-refresh" class="btn-icon" type="button" title="Refresh">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+      </button>
+      <div class="browser-address-wrap">
+        <span class="address-lock-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </span>
+        <input id="browser-address" aria-label="Address" placeholder="https://…">
+        <button id="browser-go" class="btn-ghost" type="button">Go</button>
+      </div>
       <button id="close-browser" class="btn-ghost" type="button">✕ Close</button>
     </div>
 
     <!-- Mode bar -->
     <div class="browser-mode-bar">
-      <label>
-        Mode
-        <select id="click-mode">
-          <option value="select">Select data</option>
-          <option value="click">Browse / click</option>
-        </select>
-      </label>
-      <button id="scroll-up" class="btn-ghost" type="button" style="padding:6px 12px">↑ Scroll</button>
-      <button id="scroll-down" class="btn-ghost" type="button" style="padding:6px 12px">↓ Scroll</button>
-      <span id="browser-message" role="status">Open a site to begin.</span>
+      <div class="mode-segmented" id="mode-segmented">
+        <button type="button" class="seg-btn active" data-mode="select" id="btn-mode-select">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+          <span>Select data</span>
+        </button>
+        <button type="button" class="seg-btn" data-mode="click" id="btn-mode-click">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="m13 13 6 6"/></svg>
+          <span>Browse / click</span>
+        </button>
+      </div>
+      <label class="sr-only" for="click-mode">Mode</label>
+      <select id="click-mode" class="sr-only">
+        <option value="select">Select data</option>
+        <option value="click">Browse / click</option>
+      </select>
+      <div class="mode-actions">
+        <button id="scroll-up" class="btn-ghost btn-sm" type="button" title="Scroll up">↑ Scroll</button>
+        <button id="scroll-down" class="btn-ghost btn-sm" type="button" title="Scroll down">↓ Scroll</button>
+      </div>
+      <div class="browser-status-wrap">
+        <span class="status-pulse-dot" id="browser-status-dot"></span>
+        <span id="browser-message" role="status">Open a site to begin.</span>
+      </div>
     </div>
 
     <!-- Canvas + selection panel -->
     <div class="browser-body">
-      <div>
-        <div id="page-canvas">
-          <img id="site-image" alt="Interactive site view — click to select data" draggable="false">
-          <div id="selection-box" hidden></div>
+      <div class="canvas-container">
+        <div class="canvas-viewport">
+          <div id="page-canvas">
+            <img id="site-image" alt="Interactive site view — click to select data" draggable="false">
+            <div id="selection-box" hidden></div>
+          </div>
         </div>
         <!-- Type bar -->
         <div class="type-bar">
-          <input id="browser-text" aria-label="Text input" placeholder="Type text in Browse mode…">
-          <button type="button" id="send-text" class="btn-ghost">Type</button>
-          <button type="button" id="send-enter" class="btn-ghost">↵ Enter</button>
+          <div class="type-bar-inner">
+            <input id="browser-text" aria-label="Text input" placeholder="Type text in Browse mode…">
+            <button type="button" id="send-text" class="btn-ghost">Type</button>
+            <button type="button" id="send-enter" class="btn-ghost">↵ Enter</button>
+          </div>
         </div>
       </div>
 
       <!-- Selection panel -->
       <div class="selection-panel">
+        <div class="selection-panel-header">
+          <h3>Element Inspector</h3>
+          <span class="tag-badge" id="selected-tag-badge">Ready</span>
+        </div>
         <div id="selection-empty">
-          <h3>Click to select</h3>
-          <p>In Select data mode, click any value on the page — title, price, link, image — to map it to a column.</p>
+          <div class="empty-picker-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+          </div>
+          <h3>Click to Inspect</h3>
+          <p>In <strong>Select data</strong> mode, click any element on the page — title, price, link, or image — to map it to a column.</p>
         </div>
         <div id="selection-details" hidden>
-          <h3>Selected content</h3>
+          <label><span>Selected content</span></label>
           <pre id="picked-value"></pre>
-          <button type="button" id="pick-parent" class="text-btn" style="font-size:11px">Select parent element</button>
+          <button type="button" id="pick-parent" class="text-btn">↑ Select parent element</button>
           <label><span>Use for</span>
             <select id="selection-purpose">
               <option value="field">A data column</option>
@@ -211,38 +282,84 @@
           </details>
           <button type="button" id="preview-selection" class="btn-ghost" style="width:100%;margin-top:8px">Preview matches</button>
           <pre id="match-preview" style="margin-top:6px"></pre>
-          <button type="button" id="save-selection" style="width:100%;margin-top:6px">Add column</button>
+          <button type="button" id="save-selection">Add column</button>
         </div>
       </div>
     </div>
   </div><!-- /visual-browser -->
 
-  <!-- Results panel -->
+  <!-- Results panel (takes the WHOLE main panel when browser is closed!) -->
   <div id="results-panel">
 
     <div class="results-topbar">
-      <h2>Results</h2>
-      <span id="status" class="badge">Ready</span>
+      <div class="results-title-group">
+        <h2>Results</h2>
+        <span id="status" class="badge">Ready</span>
+      </div>
       <div class="stats-row">
-        <div class="stat"><strong id="row-count">0</strong><span>rows</span></div>
-        <div class="stat"><strong id="page-count">0</strong><span>pages</span></div>
-        <div class="stat"><strong id="error-count">0</strong><span>errors</span></div>
+        <div class="stat-card stat-rows">
+          <div class="stat-icon-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </div>
+          <div class="stat-data">
+            <strong id="row-count">0</strong>
+            <span>rows</span>
+          </div>
+        </div>
+        <div class="stat-card stat-pages">
+          <div class="stat-icon-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="stat-data">
+            <strong id="page-count">0</strong>
+            <span>pages</span>
+          </div>
+        </div>
+        <div class="stat-card stat-errors">
+          <div class="stat-icon-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="stat-data">
+            <strong id="error-count">0</strong>
+            <span>errors</span>
+          </div>
+        </div>
       </div>
       <div class="results-tools">
-        <button id="csv" class="btn-ghost" disabled>↓ CSV</button>
-        <button id="xlsx" class="btn-ghost" disabled>↓ Excel</button>
+        <button id="csv" class="btn-ghost" disabled title="Export as CSV">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>CSV</span>
+        </button>
+        <button id="xlsx" class="btn-ghost" disabled title="Export as Excel">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Excel</span>
+        </button>
         <div class="sep"></div>
-        <button id="stop" class="btn-ghost" disabled>Stop</button>
-        <button id="resume" class="btn-ghost" disabled>Resume</button>
-        <button id="delete-job" class="btn-danger" disabled>Delete</button>
+        <button id="stop" class="btn-warning" disabled title="Pause scraping">Stop</button>
+        <button id="resume" class="btn-success" disabled title="Resume job">Resume</button>
+        <button id="delete-job" class="btn-danger" disabled title="Delete job">Delete</button>
       </div>
     </div>
 
     <div class="results-body">
       <div id="empty">
-        <div class="empty-icon">▦</div>
-        <h3>No results yet</h3>
-        <p>Open a site, select your columns, then hit <strong>Run scraper</strong>. Results appear here as pages are scraped.</p>
+        <div class="empty-illustration">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="12" width="48" height="40" rx="8" fill="#1b2236" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+            <line x1="8" y1="24" x2="56" y2="24" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+            <line x1="24" y1="24" x2="24" y2="52" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+            <circle cx="16" cy="18" r="2.5" fill="#f43f5e" opacity="0.8"/>
+            <circle cx="24" cy="18" r="2.5" fill="#f59e0b" opacity="0.8"/>
+            <circle cx="32" cy="18" r="2.5" fill="#10b981" opacity="0.8"/>
+            <rect x="28" y="30" width="22" height="4" rx="2" fill="#6366f1" opacity="0.7"/>
+            <rect x="28" y="38" width="16" height="4" rx="2" fill="#818cf8" opacity="0.4"/>
+            <rect x="28" y="46" width="20" height="4" rx="2" fill="#818cf8" opacity="0.25"/>
+            <circle cx="48" cy="46" r="10" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1.5"/>
+            <path d="M48 42v8m-4-4h8" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>No Scraped Data Yet</h3>
+        <p>Open a site using the left sidebar to visually pick your columns, then hit <strong>Run scraper</strong>. Extracted records will appear here in real time.</p>
       </div>
       <div id="table-wrap" hidden>
         <table><thead id="thead"></thead><tbody id="tbody"></tbody></table>
@@ -261,7 +378,7 @@
 
     <!-- History -->
     <div class="history-section">
-      <h3>RECENT JOBS</h3>
+      <h3>Recent Jobs</h3>
       <div id="history">No jobs yet.</div>
     </div>
 
@@ -274,4 +391,5 @@
 <script src="/static/app.js"></script>
 <script src="/static/picker.js"></script>
 <script src="/static/account.js"></script>
-</body></html>
+</body>
+</html>
