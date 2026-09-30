@@ -1,0 +1,1386 @@
+{
+  "version": 1,
+  "generated_at": "2026-09-30T04:34:32.898376+00:00",
+  "repository": "C:\\Users\\human-bot\\Downloads\\harvest-web-scraper\\harvest",
+  "fingerprints": {
+    "app.py": {
+      "size": 10916,
+      "mtime_ns": 1790742410249047600,
+      "sha256": "9f185f3a3d6ae48a113df90c5c8a2c9715c7a6bf646a278cabed0a3b0c023504"
+    },
+    "auth.py": {
+      "size": 3185,
+      "mtime_ns": 1790742407773261600,
+      "sha256": "f0ccc12613fa4e167cadbaac33c01adf0c55bcf82df250d12b93c71b60c605e4"
+    },
+    "compose.production.yaml": {
+      "size": 428,
+      "mtime_ns": 1790742407798212700,
+      "sha256": "4a3eb68de13237ae39def4fc0ffc8490e68381ea3b1fac2009f46eb112b6714f"
+    },
+    "compose.yaml": {
+      "size": 2111,
+      "mtime_ns": 1790742410256495700,
+      "sha256": "6713cc2c588a627196321dc7b1bc9646257ff8e9e8b559f8d04eaabd3c7a8817"
+    },
+    "Dockerfile": {
+      "size": 689,
+      "mtime_ns": 1790742410262052500,
+      "sha256": "7a783034cf5c6efe50902de0a8339af788f81d719c7f143abb9a82c2cf1b23ad"
+    },
+    "egress_proxy.py": {
+      "size": 4479,
+      "mtime_ns": 1790742407816723500,
+      "sha256": "5435df94cb7a3a87d876d7491e4fe61df02786b7e3fb9e91c56a347b52a47f6e"
+    },
+    "manage.py": {
+      "size": 2332,
+      "mtime_ns": 1790742407823913000,
+      "sha256": "e7cb0228d17344fdf08d32c1edb55059da23fd2e6529e77ac07c2c2e691c1e3f"
+    },
+    "package-lock.json": {
+      "size": 18826,
+      "mtime_ns": 1790742407859983600,
+      "sha256": "a2807da9a06b03311f2fa932749792274b52111aa2c89f799fbb8fb1b8998180"
+    },
+    "package.json": {
+      "size": 171,
+      "mtime_ns": 1790742407852917700,
+      "sha256": "c57d23b4981a80f21ada2d975752568098c7a57a4fad04e8af872f5aea05c440"
+    },
+    "picker.py": {
+      "size": 7855,
+      "mtime_ns": 1790742410272050300,
+      "sha256": "76f1ffa6f2545d21ecc6488cd5ba53dceba5a6fc4db828ddcce0d1af94d74e5f"
+    },
+    "picker_dom.js": {
+      "size": 2619,
+      "mtime_ns": 1790742410282574600,
+      "sha256": "5a993a4d494de0b39a87196259b102ce9ed2ab967d7a8b02dff989b9d31f483a"
+    },
+    "requirements.txt": {
+      "size": 85,
+      "mtime_ns": 1790742410312145100,
+      "sha256": "187db505d538b32afa81ed4beea9e45b499ee6ada50c3a1c7aa24c51a5636030"
+    },
+    "scraper.py": {
+      "size": 11636,
+      "mtime_ns": 1790742410327831600,
+      "sha256": "81bd9b41255e4e6932902711ae4b868d6bc3f24db08b07cb51869096cc47d064"
+    },
+    "settings.py": {
+      "size": 1189,
+      "mtime_ns": 1790742407923171600,
+      "sha256": "7d1cd11a8492af758466a9e8863542c224b263afa61c4fb3d11552c301dfc8eb"
+    },
+    "store.py": {
+      "size": 6563,
+      "mtime_ns": 1790742407931764500,
+      "sha256": "ae738cccd8265919419cb366ecdf94de2a80a6bf27420f3cac544715647357f8"
+    },
+    "worker.py": {
+      "size": 3317,
+      "mtime_ns": 1790742407946394600,
+      "sha256": "d2a1ad91aa9c1f5015f107df3ab0e053f83188b697d779387cbb510c41bd8d06"
+    },
+    "demo/catalog.html": {
+      "size": 566,
+      "mtime_ns": 1790742407588888400,
+      "sha256": "0c6676611b45fa55c81d750d3322dd87d46ccbde4be462aa80d14308119225ca"
+    },
+    "demo/page2.html": {
+      "size": 518,
+      "mtime_ns": 1790742407603394600,
+      "sha256": "27fd7f463065ab3417959829383a3059547ae8d805b95ab77f47b992517ea56b"
+    },
+    "demo/style.css": {
+      "size": 411,
+      "mtime_ns": 1790742407596034700,
+      "sha256": "6563669f07d0943408074f369ce3b6add9cd8f84f0c786deab6ac3e4993674d7"
+    },
+    "demo/product/1.html": {
+      "size": 341,
+      "mtime_ns": 1790742407627944000,
+      "sha256": "8143edfa398f5274ba7b733e79954cb5d9f5846a717866cb0ab710341f622789"
+    },
+    "demo/product/2.html": {
+      "size": 341,
+      "mtime_ns": 1790742407613692300,
+      "sha256": "0bbf232e795d7c5e637c17c623465c95f1ad6e7d55ba7c1f129270ea09013917"
+    },
+    "demo/product/3.html": {
+      "size": 341,
+      "mtime_ns": 1790742407620350900,
+      "sha256": "dc93aecac4e5a2e3a3ce69fa74d9cd0b65b5c0e7a3ab6c111fdbaa43c70c51a5"
+    },
+    "demo/product/4.html": {
+      "size": 341,
+      "mtime_ns": 1790742407633233300,
+      "sha256": "24c2436b7a2a7b4402ba240510ec7559b79effcf93be1191b5d3a118893af003"
+    },
+    "deploy/browser-seccomp.json": {
+      "size": 12997,
+      "mtime_ns": 1790742407646574600,
+      "sha256": "cc3e61cabda6bbc1e53e54d27ba4d55a9d3be829b6dd1a596f4a7b31b1cc7849"
+    },
+    "static/account.js": {
+      "size": 3774,
+      "mtime_ns": 1790742407716896300,
+      "sha256": "9c6a7a468fc4cdd8a9497f81f6dc2f8ee30fa7da1bbf6f0bf028a2402b7d2ef0"
+    },
+    "static/app.js": {
+      "size": 7446,
+      "mtime_ns": 1790742410194438200,
+      "sha256": "b5f379b62e20a010913932871158f4e850c5514cd7a23c83a35cc29fdd726849"
+    },
+    "static/index.html": {
+      "size": 9293,
+      "mtime_ns": 1790742410202709900,
+      "sha256": "4fd712eb837ad0ab3f8cae344b31f46e6d453552bfd013f36b117fe20f92a125"
+    },
+    "static/picker.js": {
+      "size": 6994,
+      "mtime_ns": 1790742410218863900,
+      "sha256": "c783f0838bd1cf30017bad73e1138c1095a99d6bcd9a04022a09147f30cc16a5"
+    },
+    "static/style.css": {
+      "size": 8195,
+      "mtime_ns": 1790742410212492500,
+      "sha256": "5f19b06abfd96b7c25989b4c856e9ccadcec13e82402749fc26a517f066e6695"
+    },
+    "tests/browser_acceptance.py": {
+      "size": 4441,
+      "mtime_ns": 1790742407734848300,
+      "sha256": "e5df06703a58bbce9995e5030b31bae3306731cb954560fff0957e3543d7fa3e"
+    },
+    "tests/test_app.py": {
+      "size": 9120,
+      "mtime_ns": 1790742410232818000,
+      "sha256": "feea31915ffa1603c935d2835970c79bb8e769330d5f42020271941e26203152"
+    }
+  },
+  "files": {
+    "app.py": {
+      "path": "app.py",
+      "extension": ".py",
+      "size": 10916,
+      "hash": "9f185f3a3d6ae48a113df90c5c8a2c9715c7a6bf646a278cabed0a3b0c023504",
+      "symbols": [
+        {
+          "kind": "async-function",
+          "name": "lifespan",
+          "line": 29
+        },
+        {
+          "kind": "async-function",
+          "name": "boundaries",
+          "line": 50
+        },
+        {
+          "kind": "function",
+          "name": "live",
+          "line": 73
+        },
+        {
+          "kind": "function",
+          "name": "ready",
+          "line": 76
+        },
+        {
+          "kind": "function",
+          "name": "config_info",
+          "line": 85
+        },
+        {
+          "kind": "function",
+          "name": "owned",
+          "line": 88
+        },
+        {
+          "kind": "function",
+          "name": "public_job",
+          "line": 93
+        },
+        {
+          "kind": "function",
+          "name": "list_jobs",
+          "line": 97
+        },
+        {
+          "kind": "function",
+          "name": "create_job",
+          "line": 102
+        },
+        {
+          "kind": "function",
+          "name": "job_details",
+          "line": 109
+        },
+        {
+          "kind": "function",
+          "name": "cancel_job",
+          "line": 115
+        },
+        {
+          "kind": "function",
+          "name": "resume",
+          "line": 123
+        },
+        {
+          "kind": "function",
+          "name": "delete_job",
+          "line": 135
+        },
+        {
+          "kind": "function",
+          "name": "safe_cell",
+          "line": 143
+        },
+        {
+          "kind": "function",
+          "name": "result_rows",
+          "line": 148
+        },
+        {
+          "kind": "function",
+          "name": "export",
+          "line": 153
+        },
+        {
+          "kind": "class",
+          "name": "Template",
+          "line": 180
+        },
+        {
+          "kind": "function",
+          "name": "templates",
+          "line": 185
+        },
+        {
+          "kind": "function",
+          "name": "save_template",
+          "line": 190
+        },
+        {
+          "kind": "function",
+          "name": "delete_template",
+          "line": 201
+        },
+        {
+          "kind": "function",
+          "name": "home",
+          "line": 207
+        }
+      ],
+      "routes": [
+        {
+          "method": "GET",
+          "route": "/health/live",
+          "symbol": "live",
+          "line": 73
+        },
+        {
+          "method": "GET",
+          "route": "/health/ready",
+          "symbol": "ready",
+          "line": 76
+        },
+        {
+          "method": "GET",
+          "route": "/api/settings",
+          "symbol": "config_info",
+          "line": 85
+        },
+        {
+          "method": "GET",
+          "route": "/api/jobs",
+          "symbol": "list_jobs",
+          "line": 97
+        },
+        {
+          "method": "POST",
+          "route": "/api/jobs",
+          "symbol": "create_job",
+          "line": 102
+        },
+        {
+          "method": "GET",
+          "route": "/api/jobs/{jid}",
+          "symbol": "job_details",
+          "line": 109
+        },
+        {
+          "method": "POST",
+          "route": "/api/jobs/{jid}/cancel",
+          "symbol": "cancel_job",
+          "line": 115
+        },
+        {
+          "method": "POST",
+          "route": "/api/jobs/{jid}/resume",
+          "symbol": "resume",
+          "line": 123
+        },
+        {
+          "method": "DELETE",
+          "route": "/api/jobs/{jid}",
+          "symbol": "delete_job",
+          "line": 135
+        },
+        {
+          "method": "GET",
+          "route": "/api/jobs/{jid}/export/{fmt}",
+          "symbol": "export",
+          "line": 153
+        },
+        {
+          "method": "GET",
+          "route": "/api/templates",
+          "symbol": "templates",
+          "line": 185
+        },
+        {
+          "method": "POST",
+          "route": "/api/templates",
+          "symbol": "save_template",
+          "line": 190
+        },
+        {
+          "method": "DELETE",
+          "route": "/api/templates/{tid}",
+          "symbol": "delete_template",
+          "line": 201
+        },
+        {
+          "method": "GET",
+          "route": "/",
+          "symbol": "home",
+          "line": 207
+        }
+      ],
+      "imports": [
+        "auth",
+        "contextlib",
+        "csv",
+        "fastapi",
+        "fastapi.responses",
+        "fastapi.staticfiles",
+        "io",
+        "json",
+        "logging",
+        "openpyxl",
+        "openpyxl.cell",
+        "os",
+        "picker",
+        "pydantic",
+        "scraper",
+        "settings",
+        "starlette.background",
+        "starlette.middleware.trustedhost",
+        "store",
+        "tempfile",
+        "time",
+        "urllib.parse",
+        "uuid"
+      ]
+    },
+    "auth.py": {
+      "path": "auth.py",
+      "extension": ".py",
+      "size": 3185,
+      "hash": "f0ccc12613fa4e167cadbaac33c01adf0c55bcf82df250d12b93c71b60c605e4",
+      "symbols": [
+        {
+          "kind": "function",
+          "name": "password_hash",
+          "line": 13
+        },
+        {
+          "kind": "function",
+          "name": "verify",
+          "line": 17
+        },
+        {
+          "kind": "function",
+          "name": "token_hash",
+          "line": 24
+        },
+        {
+          "kind": "function",
+          "name": "current_user",
+          "line": 26
+        },
+        {
+          "kind": "class",
+          "name": "Login",
+          "line": 36
+        },
+        {
+          "kind": "function",
+          "name": "login",
+          "line": 41
+        },
+        {
+          "kind": "function",
+          "name": "me",
+          "line": 58
+        },
+        {
+          "kind": "function",
+          "name": "logout",
+          "line": 61
+        }
+      ],
+      "routes": [
+        {
+          "method": "POST",
+          "route": "/login",
+          "symbol": "login",
+          "line": 41
+        },
+        {
+          "method": "GET",
+          "route": "/me",
+          "symbol": "me",
+          "line": 58
+        },
+        {
+          "method": "POST",
+          "route": "/logout",
+          "symbol": "logout",
+          "line": 61
+        }
+      ],
+      "imports": [
+        "fastapi",
+        "hashlib",
+        "hmac",
+        "pydantic",
+        "secrets",
+        "settings",
+        "store",
+        "time"
+      ]
+    },
+    "compose.production.yaml": {
+      "path": "compose.production.yaml",
+      "extension": ".yaml",
+      "size": 428,
+      "hash": "4a3eb68de13237ae39def4fc0ffc8490e68381ea3b1fac2009f46eb112b6714f",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "compose.yaml": {
+      "path": "compose.yaml",
+      "extension": ".yaml",
+      "size": 2111,
+      "hash": "6713cc2c588a627196321dc7b1bc9646257ff8e9e8b559f8d04eaabd3c7a8817",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "Dockerfile": {
+      "path": "Dockerfile",
+      "extension": "",
+      "size": 689,
+      "hash": "7a783034cf5c6efe50902de0a8339af788f81d719c7f143abb9a82c2cf1b23ad",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "egress_proxy.py": {
+      "path": "egress_proxy.py",
+      "extension": ".py",
+      "size": 4479,
+      "hash": "5435df94cb7a3a87d876d7491e4fe61df02786b7e3fb9e91c56a347b52a47f6e",
+      "symbols": [
+        {
+          "kind": "function",
+          "name": "resolve_public",
+          "line": 15
+        },
+        {
+          "kind": "function",
+          "name": "dial",
+          "line": 24
+        },
+        {
+          "kind": "class",
+          "name": "Proxy",
+          "line": 38
+        },
+        {
+          "kind": "method",
+          "name": "Proxy.log_message",
+          "line": 40
+        },
+        {
+          "kind": "method",
+          "name": "Proxy.setup",
+          "line": 41
+        },
+        {
+          "kind": "method",
+          "name": "Proxy.handle_one_request",
+          "line": 43
+        },
+        {
+          "kind": "method",
+          "name": "Proxy.do_CONNECT",
+          "line": 47
+        },
+        {
+          "kind": "method",
+          "name": "Proxy.forward",
+          "line": 67
+        }
+      ],
+      "routes": [],
+      "imports": [
+        "http.server",
+        "ipaddress",
+        "os",
+        "select",
+        "socket",
+        "threading",
+        "time",
+        "urllib.parse"
+      ]
+    },
+    "manage.py": {
+      "path": "manage.py",
+      "extension": ".py",
+      "size": 2332,
+      "hash": "e7cb0228d17344fdf08d32c1edb55059da23fd2e6529e77ac07c2c2e691c1e3f",
+      "symbols": [
+        {
+          "kind": "function",
+          "name": "main",
+          "line": 12
+        }
+      ],
+      "routes": [],
+      "imports": [
+        "argparse",
+        "auth",
+        "getpass",
+        "json",
+        "pathlib",
+        "settings",
+        "sqlite3",
+        "store",
+        "uuid"
+      ]
+    },
+    "package-lock.json": {
+      "path": "package-lock.json",
+      "extension": ".json",
+      "size": 18826,
+      "hash": "a2807da9a06b03311f2fa932749792274b52111aa2c89f799fbb8fb1b8998180",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "package.json": {
+      "path": "package.json",
+      "extension": ".json",
+      "size": 171,
+      "hash": "c57d23b4981a80f21ada2d975752568098c7a57a4fad04e8af872f5aea05c440",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "picker.py": {
+      "path": "picker.py",
+      "extension": ".py",
+      "size": 7855,
+      "hash": "76f1ffa6f2545d21ecc6488cd5ba53dceba5a6fc4db828ddcce0d1af94d74e5f",
+      "symbols": [
+        {
+          "kind": "class",
+          "name": "Open",
+          "line": 23
+        },
+        {
+          "kind": "class",
+          "name": "Action",
+          "line": 25
+        },
+        {
+          "kind": "class",
+          "name": "PageSession",
+          "line": 37
+        },
+        {
+          "kind": "method",
+          "name": "PageSession.__init__",
+          "line": 38
+        },
+        {
+          "kind": "method",
+          "name": "PageSession.snapshot",
+          "line": 39
+        },
+        {
+          "kind": "method",
+          "name": "PageSession.act",
+          "line": 44
+        },
+        {
+          "kind": "function",
+          "name": "browser_process",
+          "line": 70
+        },
+        {
+          "kind": "class",
+          "name": "Session",
+          "line": 95
+        },
+        {
+          "kind": "method",
+          "name": "Session.__init__",
+          "line": 96
+        },
+        {
+          "kind": "method",
+          "name": "Session.receive",
+          "line": 103
+        },
+        {
+          "kind": "method",
+          "name": "Session.submit",
+          "line": 109
+        },
+        {
+          "kind": "method",
+          "name": "Session.close",
+          "line": 118
+        },
+        {
+          "kind": "function",
+          "name": "find",
+          "line": 123
+        },
+        {
+          "kind": "function",
+          "name": "open_browser",
+          "line": 129
+        },
+        {
+          "kind": "function",
+          "name": "action",
+          "line": 143
+        },
+        {
+          "kind": "function",
+          "name": "close_browser",
+          "line": 147
+        },
+        {
+          "kind": "function",
+          "name": "reaper",
+          "line": 152
+        },
+        {
+          "kind": "function",
+          "name": "startup",
+          "line": 160
+        },
+        {
+          "kind": "function",
+          "name": "shutdown",
+          "line": 162
+        }
+      ],
+      "routes": [
+        {
+          "method": "POST",
+          "route": "/{sid}/action",
+          "symbol": "action",
+          "line": 143
+        },
+        {
+          "method": "DELETE",
+          "route": "/{sid}",
+          "symbol": "close_browser",
+          "line": 147
+        }
+      ],
+      "imports": [
+        "auth",
+        "base64",
+        "fastapi",
+        "logging",
+        "multiprocessing",
+        "os",
+        "pathlib",
+        "pydantic",
+        "scraper",
+        "store",
+        "threading",
+        "time",
+        "typing",
+        "uuid",
+        "worker"
+      ]
+    },
+    "picker_dom.js": {
+      "path": "picker_dom.js",
+      "extension": ".js",
+      "size": 2619,
+      "hash": "5a993a4d494de0b39a87196259b102ce9ed2ab967d7a8b02dff989b9d31f483a",
+      "symbols": [
+        {
+          "kind": "function",
+          "name": "token",
+          "line": 6
+        },
+        {
+          "kind": "function",
+          "name": "exact",
+          "line": 10
+        },
+        {
+          "kind": "function",
+          "name": "similar",
+          "line": 25
+        },
+        {
+          "kind": "function",
+          "name": "clean",
+          "line": 2
+        },
+        {
+          "kind": "function",
+          "name": "esc",
+          "line": 3
+        },
+        {
+          "kind": "function",
+          "name": "count",
+          "line": 4
+        },
+        {
+          "kind": "function",
+          "name": "classes",
+          "line": 5
+        }
+      ],
+      "routes": [],
+      "imports": []
+    },
+    "requirements.txt": {
+      "path": "requirements.txt",
+      "extension": ".txt",
+      "size": 85,
+      "hash": "187db505d538b32afa81ed4beea9e45b499ee6ada50c3a1c7aa24c51a5636030",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "scraper.py": {
+      "path": "scraper.py",
+      "extension": ".py",
+      "size": 11636,
+      "hash": "81bd9b41255e4e6932902711ae4b868d6bc3f24db08b07cb51869096cc47d064",
+      "symbols": [
+        {
+          "kind": "class",
+          "name": "Column",
+          "line": 9
+        },
+        {
+          "kind": "class",
+          "name": "Config",
+          "line": 15
+        },
+        {
+          "kind": "method",
+          "name": "Config.validate_config",
+          "line": 32
+        },
+        {
+          "kind": "function",
+          "name": "canonical",
+          "line": 45
+        },
+        {
+          "kind": "class",
+          "name": "Browser",
+          "line": 72
+        },
+        {
+          "kind": "method",
+          "name": "Browser.__init__",
+          "line": 73
+        },
+        {
+          "kind": "method",
+          "name": "Browser.__enter__",
+          "line": 76
+        },
+        {
+          "kind": "method",
+          "name": "Browser.visit",
+          "line": 113
+        },
+        {
+          "kind": "method",
+          "name": "Browser.extract",
+          "line": 130
+        },
+        {
+          "kind": "method",
+          "name": "Browser.__exit__",
+          "line": 134
+        },
+        {
+          "kind": "function",
+          "name": "crawl",
+          "line": 140
+        }
+      ],
+      "routes": [],
+      "imports": [
+        "collections",
+        "os",
+        "pydantic",
+        "time",
+        "typing",
+        "urllib.parse"
+      ]
+    },
+    "settings.py": {
+      "path": "settings.py",
+      "extension": ".py",
+      "size": 1189,
+      "hash": "7d1cd11a8492af758466a9e8863542c224b263afa61c4fb3d11552c301dfc8eb",
+      "symbols": [
+        {
+          "kind": "function",
+          "name": "validate",
+          "line": 16
+        }
+      ],
+      "routes": [],
+      "imports": [
+        "os",
+        "pathlib"
+      ]
+    },
+    "store.py": {
+      "path": "store.py",
+      "extension": ".py",
+      "size": 6563,
+      "hash": "ae738cccd8265919419cb366ecdf94de2a80a6bf27420f3cac544715647357f8",
+      "symbols": [
+        {
+          "kind": "function",
+          "name": "connection",
+          "line": 10
+        },
+        {
+          "kind": "function",
+          "name": "migrate",
+          "line": 25
+        },
+        {
+          "kind": "function",
+          "name": "audit",
+          "line": 42
+        },
+        {
+          "kind": "function",
+          "name": "rate",
+          "line": 45
+        },
+        {
+          "kind": "function",
+          "name": "create_job",
+          "line": 54
+        },
+        {
+          "kind": "function",
+          "name": "get_job",
+          "line": 64
+        },
+        {
+          "kind": "function",
+          "name": "decode",
+          "line": 69
+        },
+        {
+          "kind": "function",
+          "name": "claim",
+          "line": 75
+        },
+        {
+          "kind": "function",
+          "name": "heartbeat",
+          "line": 87
+        },
+        {
+          "kind": "function",
+          "name": "checkpoint",
+          "line": 94
+        },
+        {
+          "kind": "function",
+          "name": "finish",
+          "line": 103
+        },
+        {
+          "kind": "function",
+          "name": "cancelled",
+          "line": 107
+        },
+        {
+          "kind": "function",
+          "name": "cleanup",
+          "line": 111
+        }
+      ],
+      "routes": [],
+      "imports": [
+        "contextlib",
+        "json",
+        "settings",
+        "sqlite3",
+        "time",
+        "uuid"
+      ]
+    },
+    "worker.py": {
+      "path": "worker.py",
+      "extension": ".py",
+      "size": 3317,
+      "hash": "d2a1ad91aa9c1f5015f107df3ab0e053f83188b697d779387cbb510c41bd8d06",
+      "symbols": [
+        {
+          "kind": "function",
+          "name": "execute",
+          "line": 15
+        },
+        {
+          "kind": "function",
+          "name": "terminate",
+          "line": 32
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "line": 47
+        }
+      ],
+      "routes": [],
+      "imports": [
+        "logging",
+        "multiprocessing",
+        "os",
+        "scraper",
+        "settings",
+        "signal",
+        "store",
+        "threading",
+        "time",
+        "uuid"
+      ]
+    },
+    "demo/catalog.html": {
+      "path": "demo/catalog.html",
+      "extension": ".html",
+      "size": 566,
+      "hash": "0c6676611b45fa55c81d750d3322dd87d46ccbde4be462aa80d14308119225ca",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "demo/page2.html": {
+      "path": "demo/page2.html",
+      "extension": ".html",
+      "size": 518,
+      "hash": "27fd7f463065ab3417959829383a3059547ae8d805b95ab77f47b992517ea56b",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "demo/style.css": {
+      "path": "demo/style.css",
+      "extension": ".css",
+      "size": 411,
+      "hash": "6563669f07d0943408074f369ce3b6add9cd8f84f0c786deab6ac3e4993674d7",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "demo/product/1.html": {
+      "path": "demo/product/1.html",
+      "extension": ".html",
+      "size": 341,
+      "hash": "8143edfa398f5274ba7b733e79954cb5d9f5846a717866cb0ab710341f622789",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "demo/product/2.html": {
+      "path": "demo/product/2.html",
+      "extension": ".html",
+      "size": 341,
+      "hash": "0bbf232e795d7c5e637c17c623465c95f1ad6e7d55ba7c1f129270ea09013917",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "demo/product/3.html": {
+      "path": "demo/product/3.html",
+      "extension": ".html",
+      "size": 341,
+      "hash": "dc93aecac4e5a2e3a3ce69fa74d9cd0b65b5c0e7a3ab6c111fdbaa43c70c51a5",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "demo/product/4.html": {
+      "path": "demo/product/4.html",
+      "extension": ".html",
+      "size": 341,
+      "hash": "24c2436b7a2a7b4402ba240510ec7559b79effcf93be1191b5d3a118893af003",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "deploy/browser-seccomp.json": {
+      "path": "deploy/browser-seccomp.json",
+      "extension": ".json",
+      "size": 12997,
+      "hash": "cc3e61cabda6bbc1e53e54d27ba4d55a9d3be829b6dd1a596f4a7b31b1cc7849",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "static/account.js": {
+      "path": "static/account.js",
+      "extension": ".js",
+      "size": 3774,
+      "hash": "9c6a7a468fc4cdd8a9497f81f6dc2f8ee30fa7da1bbf6f0bf028a2402b7d2ef0",
+      "symbols": [
+        {
+          "kind": "function",
+          "name": "enterWorkspace",
+          "line": 2
+        },
+        {
+          "kind": "function",
+          "name": "loadTemplates",
+          "line": 18
+        },
+        {
+          "kind": "function",
+          "name": "fillConfig",
+          "line": 21
+        }
+      ],
+      "routes": [],
+      "imports": []
+    },
+    "static/app.js": {
+      "path": "static/app.js",
+      "extension": ".js",
+      "size": 7446,
+      "hash": "b5f379b62e20a010913932871158f4e850c5514cd7a23c83a35cc29fdd726849",
+      "symbols": [
+        {
+          "kind": "function",
+          "name": "input",
+          "line": 4
+        },
+        {
+          "kind": "function",
+          "name": "labeled",
+          "line": 5
+        },
+        {
+          "kind": "function",
+          "name": "addLevel",
+          "line": 6
+        },
+        {
+          "kind": "function",
+          "name": "addField",
+          "line": 13
+        },
+        {
+          "kind": "function",
+          "name": "config",
+          "line": 30
+        },
+        {
+          "kind": "function",
+          "name": "api",
+          "line": 36
+        },
+        {
+          "kind": "function",
+          "name": "cell",
+          "line": 51
+        },
+        {
+          "kind": "function",
+          "name": "poll",
+          "line": 52
+        },
+        {
+          "kind": "function",
+          "name": "refreshHistory",
+          "line": 69
+        },
+        {
+          "kind": "function",
+          "name": "$",
+          "line": 1
+        },
+        {
+          "kind": "function",
+          "name": "terminal",
+          "line": 3
+        }
+      ],
+      "routes": [],
+      "imports": []
+    },
+    "static/index.html": {
+      "path": "static/index.html",
+      "extension": ".html",
+      "size": 9293,
+      "hash": "4fd712eb837ad0ab3f8cae344b31f46e6d453552bfd013f36b117fe20f92a125",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "static/picker.js": {
+      "path": "static/picker.js",
+      "extension": ".js",
+      "size": 6994,
+      "hash": "c783f0838bd1cf30017bad73e1138c1095a99d6bcd9a04022a09147f30cc16a5",
+      "symbols": [
+        {
+          "kind": "function",
+          "name": "pickerStatus",
+          "line": 2
+        },
+        {
+          "kind": "function",
+          "name": "setPickerBusy",
+          "line": 3
+        },
+        {
+          "kind": "function",
+          "name": "pickerRequest",
+          "line": 4
+        },
+        {
+          "kind": "function",
+          "name": "showShot",
+          "line": 5
+        },
+        {
+          "kind": "function",
+          "name": "pickerAction",
+          "line": 11
+        },
+        {
+          "kind": "function",
+          "name": "showSelection",
+          "line": 48
+        },
+        {
+          "kind": "function",
+          "name": "updateSelection",
+          "line": 59
+        }
+      ],
+      "routes": [],
+      "imports": []
+    },
+    "static/style.css": {
+      "path": "static/style.css",
+      "extension": ".css",
+      "size": 8195,
+      "hash": "5f19b06abfd96b7c25989b4c856e9ccadcec13e82402749fc26a517f066e6695",
+      "symbols": [],
+      "routes": [],
+      "imports": []
+    },
+    "tests/browser_acceptance.py": {
+      "path": "tests/browser_acceptance.py",
+      "extension": ".py",
+      "size": 4441,
+      "hash": "e5df06703a58bbce9995e5030b31bae3306731cb954560fff0957e3543d7fa3e",
+      "symbols": [
+        {
+          "kind": "function",
+          "name": "run",
+          "line": 16
+        }
+      ],
+      "routes": [],
+      "imports": [
+        "csv",
+        "httpx",
+        "io",
+        "openpyxl",
+        "os",
+        "pathlib",
+        "playwright.sync_api",
+        "time"
+      ]
+    },
+    "tests/test_app.py": {
+      "path": "tests/test_app.py",
+      "extension": ".py",
+      "size": 9120,
+      "hash": "feea31915ffa1603c935d2835970c79bb8e769330d5f42020271941e26203152",
+      "symbols": [
+        {
+          "kind": "function",
+          "name": "client",
+          "line": 13
+        },
+        {
+          "kind": "function",
+          "name": "login",
+          "line": 19
+        },
+        {
+          "kind": "function",
+          "name": "config",
+          "line": 23
+        },
+        {
+          "kind": "class",
+          "name": "FakeBrowser",
+          "line": 24
+        },
+        {
+          "kind": "method",
+          "name": "FakeBrowser.__init__",
+          "line": 25
+        },
+        {
+          "kind": "method",
+          "name": "FakeBrowser.__enter__",
+          "line": 26
+        },
+        {
+          "kind": "method",
+          "name": "FakeBrowser.__exit__",
+          "line": 27
+        },
+        {
+          "kind": "method",
+          "name": "FakeBrowser.visit",
+          "line": 28
+        },
+        {
+          "kind": "method",
+          "name": "FakeBrowser.extract",
+          "line": 29
+        },
+        {
+          "kind": "function",
+          "name": "test_traversal_limits",
+          "line": 34
+        },
+        {
+          "kind": "function",
+          "name": "test_recovery_and_fencing",
+          "line": 40
+        },
+        {
+          "kind": "function",
+          "name": "test_atomic_claim",
+          "line": 56
+        },
+        {
+          "kind": "function",
+          "name": "test_auth_csrf_logout",
+          "line": 61
+        },
+        {
+          "kind": "function",
+          "name": "test_ownership",
+          "line": 70
+        },
+        {
+          "kind": "function",
+          "name": "test_exports",
+          "line": 79
+        },
+        {
+          "kind": "function",
+          "name": "test_cancel_resume_delete",
+          "line": 87
+        },
+        {
+          "kind": "function",
+          "name": "test_validation_headers",
+          "line": 96
+        },
+        {
+          "kind": "function",
+          "name": "test_picker_ownership",
+          "line": 104
+        },
+        {
+          "kind": "function",
+          "name": "test_private_network_blocked",
+          "line": 113
+        },
+        {
+          "kind": "function",
+          "name": "test_dns_mixed_records_ports",
+          "line": 116
+        },
+        {
+          "kind": "function",
+          "name": "test_readiness_retention",
+          "line": 120
+        },
+        {
+          "kind": "function",
+          "name": "test_login_throttle",
+          "line": 127
+        },
+        {
+          "kind": "function",
+          "name": "test_expired_session_and_disabled_user",
+          "line": 131
+        },
+        {
+          "kind": "function",
+          "name": "test_stale_picker_revision_rejected",
+          "line": 139
+        }
+      ],
+      "routes": [],
+      "imports": [
+        "app",
+        "auth",
+        "concurrent.futures",
+        "csv",
+        "egress_proxy",
+        "fastapi.testclient",
+        "io",
+        "json",
+        "openpyxl",
+        "pytest",
+        "scraper",
+        "settings",
+        "socket",
+        "store",
+        "time"
+      ]
+    }
+  }
+}
